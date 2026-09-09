@@ -135,7 +135,7 @@ check_network
 
 readonly OFFICIAL_PACKAGES=(
 	hyprland foot grim slurp swww fish swaylock swayidle sassc starship
-	cava imagemagick ttf-ibm-plex-mono-nerd gnome-bluetooth-3.0 wl-clipboard
+	cava imagemagick ttf-ibm-plex gnome-bluetooth-3.0 wl-clipboard
 	libdbusmenu-gtk3 xorg-xrandr cpio cmake git meson gcc curl base-devel
 )
 readonly AUR_PACKAGES=(aylurs-gtk-shell-git theme.sh)
