@@ -119,6 +119,21 @@ install_optional_pacman_packages() {
 	done
 }
 
+install_hyprbars() {
+	if [[ -n "${HYPRLAND_INSTANCE_SIGNATURE:-}" ]] && has_command hyprctl; then
+		printf '%s\n' "Installing hyprbars plugin into the running Hyprland session..."
+		hyprpm update
+		hyprpm add "${HYPRLAND_PLUGINS_URL}" 2>/dev/null || true
+		hyprpm enable hyprbars
+		hyprpm reload -n
+		return 0
+	fi
+
+	printf '%s\n' "Hyprland is not running; skipping live hyprbars activation."
+	printf '%s\n' "After starting Hyprland, run:"
+	printf '%s\n' "hyprpm update && hyprpm add ${HYPRLAND_PLUGINS_URL} && hyprpm enable hyprbars"
+}
+
 if [[ "${EUID}" -eq 0 ]]; then
 	die "Run this script as a regular user; sudo is used for pacman."
 fi
@@ -150,16 +165,11 @@ yay -S --needed --noconfirm "${AUR_PACKAGES[@]}"
 
 install_sttt
 install_theme
-
-printf '%s\n' "Installing hyprbars plugin..."
-hyprpm update
-hyprpm add "${HYPRLAND_PLUGINS_URL}" 2>/dev/null || true
-hyprpm enable hyprbars
-hyprpm reload -n
+install_hyprbars
 check_installation
 
 printf '\n%s\n' "Theme installed at ${THEME_DIR}."
 printf '%s\n' 'Add these lines to your main hyprland.conf:'
 printf '%s\n' '$yorha=$HOME/.config/hypr/themes/yorha' 'source = $yorha/theme.conf'
-printf '%s\n' 'Installed and verified: Hyprland, AGS, theme.sh, sttt, and hyprbars.'
+printf '%s\n' 'Installed and verified: Hyprland, AGS, theme.sh, and sttt.'
 printf '%s\n' 'Unimatrix is optional and is not required by this theme.'
