@@ -15,6 +15,9 @@ hl.monitor({
 
 hl.env("XCURSOR_SIZE", "24")
 hl.env("HYPRCURSOR_SIZE", "24")
+hl.env("COLORFILE", themeDir .. "/colors_nier_light")
+hl.env("STARSHIP_CONFIG", themeDir .. "/components/starship.toml")
+hl.env("HYPRLAND_THEME", themeDir)
 
 hl.config({
     input = {

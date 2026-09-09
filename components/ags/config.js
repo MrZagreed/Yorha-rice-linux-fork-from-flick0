@@ -121,21 +121,9 @@ dark.connect("changed", () => {
   execAsync(`ags -b notify -r dark.value=${dark.value}`).then(print);
   execAsync(`ags -b settings -r dark.value=${dark.value}`).then(print);
 
-  let hyprconf = Utils.readFile(`${themedir}/theme.conf`);
-  if (dark.value) {
-    hyprconf = hyprconf.replaceAll("nier_light","nier_dark");
-  } else {
-    hyprconf = hyprconf.replaceAll("nier_dark","nier_light");
-  }
-  Utils.writeFile(hyprconf,`${themedir}/theme.conf`).then(()=>{
-    print("reloaded hypr")
-  }).catch((e) => print("error",e));
-  Utils.timeout(1000,() => {
-    execAsync(`hyprctl keyword monitor ,addreserved,${top_bar_height},${top_bar_height},0,0`).then(print).catch(print);
-  })
 }) 
 
-execAsync(["bash","-c",`pkill dunst;ags -b notify -c ${App.configDir}/windows/notifications/notifications.js`])
+execAsync(`ags -b notify -c ${App.configDir}/windows/notifications/notifications.js`)
 
 
 const BottomBar = ({ monitor } = {}) =>

@@ -1,6 +1,12 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
+set -Eeuo pipefail
 
-themedir=$1
-grim -g "$(ags -b geom -c $themedir/components/ags/windows/geom/geom.js)" /tmp/scrn.png && \
- wl-copy < /tmp/scrn.png && \
- notify-send "Screenshot copied to clipboard" -a "ss" -i /tmp/scrn.png
+themedir=${1:?Usage: screenshot THEME_DIRECTORY}
+command -v grim >/dev/null || exit 1
+command -v wl-copy >/dev/null || exit 1
+command -v notify-send >/dev/null || exit 1
+
+geometry="$(ags -b geom -c "${themedir}/components/ags/windows/geom/geom.js")"
+grim -g "${geometry}" /tmp/scrn.png
+wl-copy < /tmp/scrn.png
+notify-send "Screenshot copied to clipboard" -a "ss" -i /tmp/scrn.png

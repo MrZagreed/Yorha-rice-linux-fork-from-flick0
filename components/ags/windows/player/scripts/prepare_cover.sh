@@ -1,6 +1,8 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
+set -Eeuo pipefail
 
-size=$2
+input=${1:?Usage: prepare_cover IMAGE [SIZE]}
+size=${2:-40}
 
 if [ -f /tmp/prev_bg.png ]; then
     if cmp -s "$1" /tmp/prev_bg.png; then
@@ -12,15 +14,11 @@ fi
 echo $1
 echo $2
 
-cp "$1" "/tmp/prev_bg.png"
+cp "${input}" "/tmp/prev_bg.png"
 
 echo "Image is different"
 
-cp "$1" "/tmp/bg.png"
-
-if [ -z "$size" ]; then
-    size=40
-fi
+cp "${input}" "/tmp/bg.png"
 
 # # grayscale
 # convert /tmp/bg.png -colorspace Gray /tmp/bg.png

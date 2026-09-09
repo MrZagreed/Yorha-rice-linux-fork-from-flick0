@@ -7,6 +7,8 @@ readonly THEME_DIR="${HOME}/.config/hypr/themes/yorha"
 readonly MAIN_CONFIG="${HOME}/.config/hypr/hyprland.lua"
 readonly STTT_URL="https://raw.githubusercontent.com/flick0/sttt/main/sttt"
 readonly HYPRLAND_PLUGINS_URL="https://github.com/hyprwm/hyprland-plugins"
+readonly AGS_URL="https://github.com/striped-bass/ags.git"
+readonly AGS_MARKER="/usr/local/share/yorha/ags-v1"
 
 on_error() {
 	printf 'Installation failed at line %s. Check the messages above.\n' "$1" >&2
@@ -52,6 +54,28 @@ install_yay() {
 	has_command yay || die "yay installation did not complete successfully."
 }
 
+install_ags() {
+	if [[ -f "${AGS_MARKER}" ]] && has_command ags; then
+		printf '%s\n' "Compatible AGS v1 fork is already installed."
+		return 0
+	fi
+
+	printf '%s\n' "Building AGS v1 fork required by this theme..."
+	local build_dir
+	build_dir="$(mktemp -d)"
+	trap 'rm -rf "$build_dir"' RETURN
+	git clone --depth 1 "${AGS_URL}" "${build_dir}/ags"
+	(
+		cd "${build_dir}/ags"
+		npm install
+		meson setup build --prefix=/usr/local
+		sudo meson install -C build
+	)
+	sudo install -Dm644 /dev/null "${AGS_MARKER}"
+	trap - RETURN
+	has_command ags || die "AGS v1 installation did not complete successfully."
+}
+
 install_sttt() {
 	local download_dir
 	download_dir="$(mktemp -d)"
@@ -89,13 +113,13 @@ install_main_config() {
 		printf '%s\n' "Backed up existing config to ${backup_path}."
 	fi
 
-	cp "${THEME_DIR}/hyprland.conf" "${MAIN_CONFIG}"
+	cp "${THEME_DIR}/hyprland.lua" "${MAIN_CONFIG}"
 	printf '%s\n' "Installed Yorha main config at ${MAIN_CONFIG}."
 }
 
 check_installation() {
 	local command_name
-	local required_commands=(Hyprland start-hyprland kitty foot grim slurp awww awww-daemon fish swaylock swayidle ags theme.sh sttt hyprpm playerctl pavucontrol nm-applet xdg-user-dir)
+	local required_commands=(Hyprland start-hyprland kitty foot grim slurp awww awww-daemon fish swaylock swayidle ags theme.sh sttt hyprpm playerctl pavucontrol nm-applet xdg-user-dir notify-send wl-copy magick sassc cava wpctl xrandr)
 	local missing_commands=()
 	for command_name in "${required_commands[@]}"; do
 		has_command "${command_name}" || missing_commands+=("${command_name}")
@@ -105,12 +129,15 @@ check_installation() {
 	fi
 
 	local required_files=(
-		"${THEME_DIR}/theme.conf"
-		"${THEME_DIR}/theme_nier_dark.conf"
-		"${THEME_DIR}/theme_nier_light.conf"
 		"${THEME_DIR}/hyprland.lua"
 		"${THEME_DIR}/components/ags/config.js"
 		"${THEME_DIR}/components/fish/theme.fish"
+		"${THEME_DIR}/scripts/screenshot"
+		"${THEME_DIR}/components/ags/windows/player/scripts/cava"
+		"${THEME_DIR}/components/ags/windows/player/scripts/prepare_cover.sh"
+		"${THEME_DIR}/components/gridlines.frag"
+		"${THEME_DIR}/wallpapers/nier_light.png"
+		"${THEME_DIR}/wallpapers/nier_dark.png"
 	)
 	local required_file
 	for required_file in "${required_files[@]}"; do
@@ -178,8 +205,9 @@ readonly OFFICIAL_PACKAGES=(
 	pipewire pipewire-pulse wireplumber bluez bluez-utils networkmanager libnotify
 	gawk coreutils grep xdg-desktop-portal xdg-desktop-portal-hyprland
 	polkit-kde-agent playerctl pavucontrol network-manager-applet xdg-user-dirs
+	typescript npm gjs gtk3 gtk-layer-shell upower gobject-introspection libsoup3 libpulse
 )
-readonly AUR_PACKAGES=(aylurs-gtk-shell-git theme.sh)
+readonly AUR_PACKAGES=(theme.sh)
 
 printf '%s\n' "Updating package databases and installing official packages..."
 install_pacman_packages "${OFFICIAL_PACKAGES[@]}"
@@ -187,6 +215,7 @@ enable_services
 install_yay
 printf '%s\n' "Installing AUR packages with yay..."
 yay -S --needed --noconfirm "${AUR_PACKAGES[@]}"
+install_ags
 
 install_sttt
 install_theme

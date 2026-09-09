@@ -20,13 +20,13 @@ A rice inspired by `NieR:Automata` ui
 
 ## 📥 Installation
 > [!IMPORTANT]
-> you need to install the base config found in [master branch](https://github.com/flickowoa/dotfiles) before installing this (unless you are using the install script)
+> this fork includes its own Lua entry config and installer; no base config from the upstream repository is required
 
 - ## Manual
     - ### Dependancies
         #### Arch
         > ```sh
-        > yay -S hyprland kitty foot grim slurp awww fish swaylock swayidle sassc starship ttf-ibm-plex cava imagemagick gnome-bluetooth-3.0 wl-clipboard libdbusmenu-gtk3 xorg-xrandr cpio cmake git meson gcc curl pipewire pipewire-pulse wireplumber bluez bluez-utils networkmanager libnotify gawk coreutils grep xdg-desktop-portal xdg-desktop-portal-hyprland polkit-kde-agent playerctl pavucontrol network-manager-applet xdg-user-dirs
+        > yay -S hyprland kitty foot grim slurp awww fish swaylock swayidle sassc starship ttf-ibm-plex cava imagemagick gnome-bluetooth-3.0 wl-clipboard libdbusmenu-gtk3 xorg-xrandr cpio cmake git meson gcc curl pipewire pipewire-pulse wireplumber bluez bluez-utils networkmanager libnotify gawk coreutils grep xdg-desktop-portal xdg-desktop-portal-hyprland polkit-kde-agent playerctl pavucontrol network-manager-applet xdg-user-dirs typescript npm gjs gtk3 gtk-layer-shell upower gobject-introspection libsoup3 libpulse
         > ```
         #### STTT
         > install from https://github.com/flick0/sttt
@@ -42,7 +42,7 @@ A rice inspired by `NieR:Automata` ui
       > ```
     - ### Clone to theme folder
       ```sh
-      mkdir -p ~/.config/hypr/themes && git clone -b hyprland-yorha https://github.com/flickowoa/dotfiles ~/.config/hypr/themes/yorha
+      mkdir -p ~/.config/hypr/themes && git clone -b hyprland-yorha https://github.com/MrZagreed/Yorha-rice-linux-fork-from-flick0 ~/.config/hypr/themes/yorha
       ```
    
     
