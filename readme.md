@@ -54,6 +54,8 @@ A rice inspired by `NieR:Automata` ui
          > $yorha=$THEME/yorha
          > source = $yorha/theme.conf
          > ```
+
+        - Start the compositor from a TTY with `Hyprland` (capital H).
       
 - ## Install Script
     ```sh
