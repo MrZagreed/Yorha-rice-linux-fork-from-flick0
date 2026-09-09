@@ -112,15 +112,16 @@ install_pacman_packages() {
 	die "pacman could not install the required packages. Check the mirror or network connection."
 }
 
-install_optional_pacman_packages() {
-	local package_name
-	for package_name in "$@"; do
-		if pacman -Si "${package_name}" >/dev/null 2>&1; then
-			install_pacman_packages "${package_name}"
-		else
-			printf 'Warning: optional package %s is unavailable in the current repositories; skipping.\n' "${package_name}" >&2
-		fi
-	done
+enable_services() {
+	printf '%s\n' "Enabling NetworkManager and Bluetooth services..."
+	sudo systemctl enable --now NetworkManager bluetooth 2>/dev/null || \
+		printf '%s\n' "Warning: enable NetworkManager/bluetooth manually if this is a container or chroot." >&2
+
+	if systemctl --user is-enabled pipewire >/dev/null 2>&1 || systemctl --user enable --now pipewire pipewire-pulse wireplumber 2>/dev/null; then
+		printf '%s\n' "PipeWire user services are enabled."
+	else
+		printf '%s\n' "Warning: start PipeWire after login with: systemctl --user enable --now pipewire pipewire-pulse wireplumber" >&2
+	fi
 }
 
 install_hyprbars() {
@@ -156,13 +157,14 @@ readonly OFFICIAL_PACKAGES=(
 	hyprland foot grim slurp awww fish swaylock swayidle sassc starship
 	cava imagemagick ttf-ibm-plex gnome-bluetooth-3.0 wl-clipboard
 	libdbusmenu-gtk3 xorg-xrandr cpio cmake git meson gcc curl base-devel
+	pipewire pipewire-pulse wireplumber bluez bluez-utils networkmanager libnotify
+	gawk coreutils grep
 )
 readonly AUR_PACKAGES=(aylurs-gtk-shell-git theme.sh)
-readonly OPTIONAL_PACKAGES=(gnome-bluetooth)
 
 printf '%s\n' "Updating package databases and installing official packages..."
 install_pacman_packages "${OFFICIAL_PACKAGES[@]}"
-install_optional_pacman_packages "${OPTIONAL_PACKAGES[@]}"
+enable_services
 install_yay
 printf '%s\n' "Installing AUR packages with yay..."
 yay -S --needed --noconfirm "${AUR_PACKAGES[@]}"
