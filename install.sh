@@ -76,7 +76,6 @@ install_ags() {
 		rm -rf node_modules
 		npm ci --no-audit --no-fund
 		[[ "$(node_modules/.bin/tsc --version)" == "Version 5."* ]] || die "AGS requires TypeScript 5.x; refusing incompatible compiler."
-		node -e 'const fs=require("fs"); const p="tsconfig.json"; const c=JSON.parse(fs.readFileSync(p,"utf8")); c.compilerOptions={...(c.compilerOptions||{}), rootDir:"."}; fs.writeFileSync(p, JSON.stringify(c, null, 2)+"\n");'
 		PATH="${PWD}/node_modules/.bin:${PATH}" meson setup build --prefix=/usr/local
 		sudo meson install -C build
 	)
