@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
-readonly REPO_URL="https://github.com/flickowoa/dotfiles.git"
+readonly REPO_URL="https://github.com/MrZagreed/Yorha-rice-linux-fork-from-flick0.git"
 readonly REPO_BRANCH="hyprland-yorha"
 readonly THEME_DIR="${HOME}/.config/hypr/themes/yorha"
 readonly STTT_URL="https://raw.githubusercontent.com/flick0/sttt/main/sttt"
