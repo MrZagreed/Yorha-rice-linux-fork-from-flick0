@@ -78,7 +78,7 @@ install_theme() {
 
 check_installation() {
 	local command_name
-	local required_commands=(Hyprland foot grim slurp swww fish swaylock swayidle ags theme.sh sttt hyprpm)
+	local required_commands=(Hyprland foot grim slurp awww awww-daemon fish swaylock swayidle ags theme.sh sttt hyprpm)
 	local missing_commands=()
 	for command_name in "${required_commands[@]}"; do
 		has_command "${command_name}" || missing_commands+=("${command_name}")
@@ -153,11 +153,11 @@ sudo -v
 check_network
 
 readonly OFFICIAL_PACKAGES=(
-	hyprland foot grim slurp fish swaylock swayidle sassc starship
+	hyprland foot grim slurp awww fish swaylock swayidle sassc starship
 	cava imagemagick ttf-ibm-plex gnome-bluetooth-3.0 wl-clipboard
 	libdbusmenu-gtk3 xorg-xrandr cpio cmake git meson gcc curl base-devel
 )
-readonly AUR_PACKAGES=(aylurs-gtk-shell-git theme.sh swww)
+readonly AUR_PACKAGES=(aylurs-gtk-shell-git theme.sh)
 readonly OPTIONAL_PACKAGES=(gnome-bluetooth)
 
 printf '%s\n' "Updating package databases and installing official packages..."
