@@ -63,7 +63,7 @@ install_ags() {
 	printf '%s\n' "Building AGS v1 fork required by this theme..."
 	if ! has_command glib-mkenums || ! has_command glib-compile-resources; then
 		printf '%s\n' "Repairing missing GLib build tools..."
-		sudo pacman -S --noconfirm --disable-download-timeout glib2
+		sudo pacman -S --noconfirm --disable-download-timeout glib2 glib2-devel
 	fi
 	has_command glib-mkenums || die "glib2 is installed without glib-mkenums; repair the Arch glib2 package manually."
 	has_command glib-compile-resources || die "glib2 is installed without glib-compile-resources; repair the Arch glib2 package manually."
@@ -211,7 +211,7 @@ readonly OFFICIAL_PACKAGES=(
 	pipewire pipewire-pulse wireplumber bluez bluez-utils networkmanager libnotify
 	gawk coreutils grep xdg-desktop-portal xdg-desktop-portal-hyprland
 	polkit-kde-agent playerctl pavucontrol network-manager-applet xdg-user-dirs
-	typescript npm gjs gtk3 gtk-layer-shell upower gobject-introspection libsoup3 libpulse glib2
+	typescript npm gjs gtk3 gtk-layer-shell upower gobject-introspection libsoup3 libpulse glib2 glib2-devel
 )
 readonly AUR_PACKAGES=(theme.sh)
 
