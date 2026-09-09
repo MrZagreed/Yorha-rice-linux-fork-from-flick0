@@ -96,6 +96,29 @@ check_installation() {
 	done
 }
 
+install_pacman_packages() {
+	local attempt=1
+	while (( attempt <= 3 )); do
+		if sudo pacman -Syu --needed --noconfirm --disable-download-timeout "$@"; then
+			return 0
+		fi
+		printf 'pacman attempt %s/3 failed; retrying package download...\n' "$attempt" >&2
+		((attempt++))
+	done
+	die "pacman could not install the required packages. Check the mirror or network connection."
+}
+
+install_optional_pacman_packages() {
+	local package_name
+	for package_name in "$@"; do
+		if pacman -Si "${package_name}" >/dev/null 2>&1; then
+			install_pacman_packages "${package_name}"
+		else
+			printf 'Warning: optional package %s is unavailable in the current repositories; skipping.\n' "${package_name}" >&2
+		fi
+	done
+}
+
 if [[ "${EUID}" -eq 0 ]]; then
 	die "Run this script as a regular user; sudo is used for pacman."
 fi
@@ -112,13 +135,15 @@ check_network
 
 readonly OFFICIAL_PACKAGES=(
 	hyprland foot grim slurp swww fish swaylock swayidle sassc starship
-	cava imagemagick ttf-ibm-plex-mono-nerd gnome-bluetooth wl-clipboard
+	cava imagemagick ttf-ibm-plex-mono-nerd gnome-bluetooth-3.0 wl-clipboard
 	libdbusmenu-gtk3 xorg-xrandr cpio cmake git meson gcc curl base-devel
 )
 readonly AUR_PACKAGES=(aylurs-gtk-shell-git theme.sh)
+readonly OPTIONAL_PACKAGES=(gnome-bluetooth)
 
 printf '%s\n' "Updating package databases and installing official packages..."
-sudo pacman -Syu --needed --noconfirm "${OFFICIAL_PACKAGES[@]}"
+install_pacman_packages "${OFFICIAL_PACKAGES[@]}"
+install_optional_pacman_packages "${OPTIONAL_PACKAGES[@]}"
 install_paru
 printf '%s\n' "Installing AUR packages with paru..."
 paru -S --needed --noconfirm "${AUR_PACKAGES[@]}"
