@@ -33,22 +33,22 @@ check_network() {
 		|| die "GitHub is unreachable. Check your network connection."
 }
 
-install_paru() {
-	if has_command paru; then
+install_yay() {
+	if has_command yay; then
 		return
 	fi
 
-	printf '%s\n' "No AUR helper found; bootstrapping paru..."
+	printf '%s\n' "No AUR helper found; bootstrapping yay..."
 	local build_dir
 	build_dir="$(mktemp -d)"
 	trap 'rm -rf "$build_dir"' RETURN
-	git clone --depth 1 https://aur.archlinux.org/paru.git "${build_dir}/paru"
+	git clone --depth 1 https://aur.archlinux.org/yay.git "${build_dir}/yay"
 	(
-		cd "${build_dir}/paru"
+		cd "${build_dir}/yay"
 		makepkg -si --noconfirm
 	)
 	trap - RETURN
-	has_command paru || die "paru installation did not complete successfully."
+	has_command yay || die "yay installation did not complete successfully."
 }
 
 install_sttt() {
@@ -144,9 +144,9 @@ readonly OPTIONAL_PACKAGES=(gnome-bluetooth)
 printf '%s\n' "Updating package databases and installing official packages..."
 install_pacman_packages "${OFFICIAL_PACKAGES[@]}"
 install_optional_pacman_packages "${OPTIONAL_PACKAGES[@]}"
-install_paru
-printf '%s\n' "Installing AUR packages with paru..."
-paru -S --needed --noconfirm "${AUR_PACKAGES[@]}"
+install_yay
+printf '%s\n' "Installing AUR packages with yay..."
+yay -S --needed --noconfirm "${AUR_PACKAGES[@]}"
 
 install_sttt
 install_theme

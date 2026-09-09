@@ -26,7 +26,7 @@ A rice inspired by `NieR:Automata` ui
     - ### Dependancies
         #### Arch
         > ```sh
-        > paru -S hyprland foot grim slurp swww fish swaylock swayidle sassc starship ttf-ibm-plex cava imagemagick gnome-bluetooth-3.0 wl-clipboard libdbusmenu-gtk3 xorg-xrandr cpio cmake git meson gcc curl
+        > yay -S hyprland foot grim slurp swww fish swaylock swayidle sassc starship ttf-ibm-plex cava imagemagick gnome-bluetooth-3.0 wl-clipboard libdbusmenu-gtk3 xorg-xrandr cpio cmake git meson gcc curl
         > ```
         #### STTT
         > install from https://github.com/flick0/sttt
@@ -57,9 +57,9 @@ A rice inspired by `NieR:Automata` ui
       
 - ## Install Script
     ```sh
-    curl -fsSL https://raw.githubusercontent.com/flickowoa/dotfiles/hyprland-yorha/install.sh | bash
+    curl -fsSL https://raw.githubusercontent.com/MrZagreed/Yorha-rice-linux-fork-from-flick0/hyprland-yorha/install.sh | bash
     ```
-  > On a clean Arch system the script installs `paru` when needed, installs all required packages, `sttt`, `theme.sh`, AGS, and `hyprbars`, then verifies the result. Run it as a regular user with `sudo` available.
+  > On a clean Arch system the script installs `yay` when needed, installs all required packages, `sttt`, `theme.sh`, AGS, and `hyprbars`, then verifies the result. Run it as a regular user with `sudo` available.
 
 ## ✨ Features
  - ### Music Widget
