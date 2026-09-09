@@ -73,7 +73,9 @@ install_ags() {
 	git clone --depth 1 "${AGS_URL}" "${build_dir}/ags"
 	(
 		cd "${build_dir}/ags"
-		npm install --no-audit --no-fund --save-exact typescript@5.9.3
+		rm -rf node_modules package-lock.json
+		npm install --no-audit --no-fund --package-lock=false --save-exact typescript@5.7.3
+		[[ "$(node_modules/.bin/tsc --version)" == "Version 5."* ]] || die "AGS requires TypeScript 5.x; refusing incompatible compiler."
 		node -e 'const fs=require("fs"); const p="tsconfig.json"; const c=JSON.parse(fs.readFileSync(p,"utf8")); c.compilerOptions={...(c.compilerOptions||{}), rootDir:"."}; fs.writeFileSync(p, JSON.stringify(c, null, 2)+"\n");'
 		meson setup build --prefix=/usr/local
 		sudo meson install -C build
