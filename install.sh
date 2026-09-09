@@ -78,7 +78,7 @@ install_theme() {
 
 check_installation() {
 	local command_name
-	local required_commands=(Hyprland foot grim slurp awww awww-daemon fish swaylock swayidle ags theme.sh sttt hyprpm)
+	local required_commands=(Hyprland kitty foot grim slurp awww awww-daemon fish swaylock swayidle ags theme.sh sttt hyprpm playerctl pavucontrol nm-applet xdg-user-dir)
 	local missing_commands=()
 	for command_name in "${required_commands[@]}"; do
 		has_command "${command_name}" || missing_commands+=("${command_name}")
@@ -154,11 +154,12 @@ sudo -v
 check_network
 
 readonly OFFICIAL_PACKAGES=(
-	hyprland foot grim slurp awww fish swaylock swayidle sassc starship
+	hyprland kitty foot grim slurp awww fish swaylock swayidle sassc starship
 	cava imagemagick ttf-ibm-plex gnome-bluetooth-3.0 wl-clipboard
 	libdbusmenu-gtk3 xorg-xrandr cpio cmake git meson gcc curl base-devel
 	pipewire pipewire-pulse wireplumber bluez bluez-utils networkmanager libnotify
-	gawk coreutils grep
+	gawk coreutils grep xdg-desktop-portal xdg-desktop-portal-hyprland
+	polkit-kde-agent playerctl pavucontrol network-manager-applet xdg-user-dirs
 )
 readonly AUR_PACKAGES=(aylurs-gtk-shell-git theme.sh)
 
