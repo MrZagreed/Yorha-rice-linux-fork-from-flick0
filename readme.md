@@ -20,13 +20,13 @@ A rice inspired by `NieR:Automata` ui
 
 ## 📥 Installation
 > [!IMPORTANT]
-> you need to install the base config found in [master branch](https://github.com/flick0/dotfiles) before installing this (unless you are using the install script)
+> you need to install the base config found in [master branch](https://github.com/flickowoa/dotfiles) before installing this (unless you are using the install script)
 
 - ## Manual
     - ### Dependancies
         #### Arch
         > ```sh
-        > paru -S hyprland-git foot grim swww-git fish theme.sh sassc starship ttf-ibmplex-mono-nerd cava imagemagick gnome-bluetooth wl-clipboard libdbusmenu-gtk3 gnome-bluetooth-3.0 xorg-xrandr cpio cmake git meson gcc
+        > paru -S hyprland foot grim slurp swww fish swaylock swayidle sassc starship ttf-ibm-plex-mono-nerd cava imagemagick gnome-bluetooth wl-clipboard libdbusmenu-gtk3 xorg-xrandr cpio cmake git meson gcc curl
         > ```
         #### STTT
         > install from https://github.com/flick0/sttt
@@ -42,7 +42,7 @@ A rice inspired by `NieR:Automata` ui
       > ```
     - ### Clone to theme folder
       ```sh
-      mkdir ~/.config/hypr/themes && git clone -b hyprland-yorha https://github.com/flick0/dotfiles ~/.config/hypr/themes/yorha
+      mkdir -p ~/.config/hypr/themes && git clone -b hyprland-yorha https://github.com/flickowoa/dotfiles ~/.config/hypr/themes/yorha
       ```
    
     
@@ -52,17 +52,14 @@ A rice inspired by `NieR:Automata` ui
          > add this under the `$THEME` variable in `hyprland.conf`
          > ```
          > $yorha=$THEME/yorha
-         > source=$yorha/theme.conf
+         > source = $yorha/theme.conf
          > ```
       
-      - hyprtheme
-         > soon
-
-- ## ~~Install Script~~ (outdated, will fix soon)
+- ## Install Script
     ```sh
-    curl -s -L https://raw.githubusercontent.com/flick0/dotfiles/hyprland-yorha/install.sh | bash
+    curl -fsSL https://raw.githubusercontent.com/flickowoa/dotfiles/hyprland-yorha/install.sh | bash
     ```
-    > provided by [@cutie_230](https://discord.com/channels/@me/1193218215380254740) on discord
+  > On a clean Arch system the script installs `paru` when needed, installs all required packages, `sttt`, `theme.sh`, AGS, and `hyprbars`, then verifies the result. Run it as a regular user with `sudo` available.
 
 ## ✨ Features
  - ### Music Widget

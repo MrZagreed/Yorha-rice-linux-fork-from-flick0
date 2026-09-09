@@ -1,7 +1,9 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
+set -Eeuo pipefail
 
-# kill ags
-pkill ags
-pkill swww
+pkill -x ags 2>/dev/null || true
+pkill -x swww-daemon 2>/dev/null || true
 
-hyprctl plugin unload /lib/hyprland-plugins/hyprbars.so
+if command -v hyprpm >/dev/null 2>&1; then
+	hyprpm disable hyprbars 2>/dev/null || true
+fi
