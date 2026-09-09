@@ -4,7 +4,7 @@ set -Eeuo pipefail
 readonly REPO_URL="https://github.com/MrZagreed/Yorha-rice-linux-fork-from-flick0.git"
 readonly REPO_BRANCH="hyprland-yorha"
 readonly THEME_DIR="${HOME}/.config/hypr/themes/yorha"
-readonly MAIN_CONFIG="${HOME}/.config/hypr/hyprland.conf"
+readonly MAIN_CONFIG="${HOME}/.config/hypr/hyprland.lua"
 readonly STTT_URL="https://raw.githubusercontent.com/flick0/sttt/main/sttt"
 readonly HYPRLAND_PLUGINS_URL="https://github.com/hyprwm/hyprland-plugins"
 
@@ -80,8 +80,8 @@ install_theme() {
 install_main_config() {
 	mkdir -p "${HOME}/.config/hypr"
 	if [[ -f "${MAIN_CONFIG}" ]]; then
-		if grep -q '^# YORHA_MAIN_CONFIG$' "${MAIN_CONFIG}"; then
-			printf '%s\n' "Yorha main config is already installed."
+		if grep -q '^-- YORHA_LUA_CONFIG$' "${MAIN_CONFIG}"; then
+			printf '%s\n' "Yorha Lua config is already installed."
 			return 0
 		fi
 		local backup_path="${MAIN_CONFIG}.backup.$(date +%Y%m%d-%H%M%S)"
@@ -108,7 +108,7 @@ check_installation() {
 		"${THEME_DIR}/theme.conf"
 		"${THEME_DIR}/theme_nier_dark.conf"
 		"${THEME_DIR}/theme_nier_light.conf"
-		"${THEME_DIR}/hyprland.conf"
+		"${THEME_DIR}/hyprland.lua"
 		"${THEME_DIR}/components/ags/config.js"
 		"${THEME_DIR}/components/fish/theme.fish"
 	)
